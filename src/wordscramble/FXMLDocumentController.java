@@ -5,6 +5,7 @@
  */
 package wordscramble;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -55,7 +57,8 @@ public class FXMLDocumentController implements Initializable{
     private Label finalResultLabel;
     @FXML
     private Label toastMsg;
-   
+    @FXML
+    private Label pointLabel;
    
     
     ArrayList <String> ques = new ArrayList<>();
@@ -63,27 +66,28 @@ public class FXMLDocumentController implements Initializable{
     HashMap<String, String> dict = new HashMap<>();
     private String line;
     private int cnt=0;
-    @FXML
-    private Label pointLabel;
-    
+    int points;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        points = 0;
         toastMsg.setVisible(false);
+        correctAnswerLabel.setVisible(false);
         question_genarator();
         dict_generator(ques, correctAns);
-        questionLabel.setText(ques.get(0));
-        
+        int randomNum = ThreadLocalRandom.current().nextInt(0, ques.size() + 1);
+        questionLabel.setText(ques.get(randomNum));
+        pointLabel.setText("0");
 
     }    
 
     @FXML
     private void answerButtonAction(ActionEvent event) {
         toastMsg.setVisible(false);
+        correctAnswerLabel.setVisible(false);
         String str = answerTextField.getText().toString().toLowerCase().trim();
         String correct = dict.get(questionLabel.getText());
-        int points = 0;
-        System.out.println(correct);
+        
         if(str.isEmpty()){
             toastMsg.setVisible(true);
           //  toast.makeText(stage, "Please enter your answer", 1500, 300, 300);
@@ -91,9 +95,11 @@ public class FXMLDocumentController implements Initializable{
         
         if(str.equals(correct)){
             points ++;
+            String pts = String.valueOf(points);
+            pointLabel.setText(pts);
         }else {
-        
-            
+            correctAnswerLabel.setVisible(true);
+            correctAnswerLabel.setText(correct);
         }        
     }
     public void question_genarator(){
@@ -128,8 +134,14 @@ public class FXMLDocumentController implements Initializable{
                 dict.put(ques.get(i), correctAns.get(i));    // is there a clearer way?
             }
         }
-        
-       // System.out.println(dict);
+    }
+    
+    
+    public int random_generator(){
+        int min = 0;
+        int max = ques.size();
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return randomNum;
     }
     
     public String shuffle(String input){
@@ -147,7 +159,8 @@ public class FXMLDocumentController implements Initializable{
     }
 
     @FXML
-    private void answerButtonAction(KeyEvent event) {
+    private void textEntered(KeyEvent event) {
+        toastMsg.setVisible(false);
     }
 
 }
