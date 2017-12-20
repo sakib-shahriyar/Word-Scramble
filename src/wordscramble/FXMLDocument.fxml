@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="389.0" prefWidth="476.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="wordscramble.FXMLDocumentController">
+    <children>
+      <Label fx:id="attemptsLabel" layoutX="362.0" layoutY="14.0" minHeight="16.0" minWidth="69.0" prefHeight="25.0" prefWidth="102.0" />
+      <Label layoutX="270.0" layoutY="14.0" minHeight="16.0" minWidth="69.0" prefHeight="25.0" prefWidth="91.0" text="Attempts Left - :" />
+      <Label fx:id="pointLabel" layoutX="377.0" layoutY="55.0" prefHeight="25.0" prefWidth="72.0" />
+      <Label layoutX="310.0" layoutY="59.0" text="Points - :" />
+        <Button fx:id="answerButton" layoutX="376.0" layoutY="209.0" onAction="#answerButtonAction" text="Submit">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+        <Label fx:id="questionLabel" layoutX="237.0" layoutY="84.0" minHeight="16" minWidth="69" prefHeight="25.0" prefWidth="193.0" />
+      <TextField fx:id="answerTextField" layoutX="237.0" layoutY="160.0" minHeight="16.0" minWidth="69.0" onKeyPressed="#answerButtonAction" prefHeight="25.0" prefWidth="193.0">
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </TextField>
+      <Label fx:id="label1" layoutX="14.0" layoutY="160.0" minHeight="16" minWidth="69" prefHeight="25.0" prefWidth="130.0" text="Your guessed answer - :" />
+      <Label fx:id="label11" layoutX="53.0" layoutY="123.0" minHeight="16" minWidth="69" prefHeight="25.0" prefWidth="91.0" text="Word to solve - :" />
+      <Label fx:id="label" layoutX="14.0" layoutY="258.0" minHeight="16" minWidth="69" prefHeight="25.0" prefWidth="130.0" text="The currect answer is - :" />
+      <Label fx:id="correctAnswerLabel" layoutX="159.0" layoutY="219.0" minHeight="16" minWidth="69" prefHeight="25.0" prefWidth="193.0" />
+      <Label fx:id="finalResultLabel" layoutX="40.0" layoutY="265.0" minHeight="16.0" minWidth="69.0" prefHeight="25.0" prefWidth="395.0" />
+      <Label fx:id="toastMsg" layoutX="169.0" layoutY="106.0" prefHeight="17.0" prefWidth="137.0" text="Please Enter your answer!" />
+    </children>
+</AnchorPane>

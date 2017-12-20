@@ -1,0 +1,6 @@
+hello
+bye
+tata
+python
+scramble
+java
