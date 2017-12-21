@@ -7,6 +7,7 @@ package wordscramble;
 
 
 import com.sun.prism.shader.AlphaTexture_ImagePattern_AlphaTest_Loader;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +25,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -59,14 +63,14 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     private Label pointLabel;
    
-    WordScramble stage = new WordScramble();
+    
     ArrayList <String> ques = new ArrayList<>();
     ArrayList <String> correctAns = new ArrayList<>();   
     HashMap<String, String> dict = new HashMap<>();
     private String line;
     private int cnt;
     int points;
-    String attempts = " | | | | | | | | | |";
+    String attempts = " | | | | | | | | | | ";
     @FXML
     private Label prevAnswerLabel;
     
@@ -91,7 +95,12 @@ public class FXMLDocumentController implements Initializable{
     }
 
     @FXML
-    private void answerButtonAction(ActionEvent event) throws InterruptedException {
+    private void answerButtonAction(ActionEvent event) throws Exception {
+       
+       check();
+    }
+    
+    public void check() throws Exception{
         int randomNum = random_generator();
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
@@ -107,20 +116,39 @@ public class FXMLDocumentController implements Initializable{
             
             if(str.equals(correct)){
                 points ++;
+                prevAnswerLabel.setVisible(false);
                 String pts = String.valueOf(points);
                 pointLabel.setText(pts);
+                final_points(points);
             }else {
                 cnt-=2;
                 prevAnswerLabel.setVisible(true);
                 correctAnswerLabel.setVisible(true);
                 correctAnswerLabel.setText(correct);
                 attemptsLabel.setText(attempts.substring(0, cnt));
+                
+                if (cnt == 0) {
+                    retryStage();
+                }
+                
             }
         
             questionLabel.setText(ques.get(randomNum));
             answerTextField.clear();
         }
-        
+    }
+    
+    public void retryStage() throws Exception{
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLWindowDocument.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1)); 
+            stage.setTitle("Result");
+            stage.show();
+        } catch(Exception e) {
+           e.printStackTrace();
+        }
     }
     
     
@@ -144,6 +172,14 @@ public class FXMLDocumentController implements Initializable{
         }catch (IOException e)  {
             e.printStackTrace();
         }
+    }
+    
+    public void final_points(int points){
+        this.points = points;
+    }
+    
+    public int getPoints() {
+       return points;
     }
     
     public void dict_generator(ArrayList<String> ques, ArrayList<String> correctAns){
