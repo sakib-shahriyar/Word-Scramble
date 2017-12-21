@@ -6,6 +6,7 @@
 package wordscramble;
 
 
+import com.sun.prism.shader.AlphaTexture_ImagePattern_AlphaTest_Loader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,8 +39,6 @@ import javafx.stage.*;
 public class FXMLDocumentController implements Initializable{
     
     @FXML
-    private Label label;
-    @FXML
     private Label attemptsLabel;
     @FXML
     private Button answerButton;
@@ -60,48 +59,71 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     private Label pointLabel;
    
-    
+    WordScramble stage = new WordScramble();
     ArrayList <String> ques = new ArrayList<>();
     ArrayList <String> correctAns = new ArrayList<>();   
     HashMap<String, String> dict = new HashMap<>();
     private String line;
-    private int cnt=0;
+    private int cnt;
     int points;
+    String attempts = " | | | | | | | | | |";
+    @FXML
+    private Label prevAnswerLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        init();
+    }    
+    
+    public void init(){
         points = 0;
+        cnt = 20;
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
+        prevAnswerLabel.setVisible(false);
+        answerTextField.clear();
         question_genarator();
         dict_generator(ques, correctAns);
-        int randomNum = ThreadLocalRandom.current().nextInt(0, ques.size() + 1);
+        int randomNum = random_generator();
+        attemptsLabel.setText(attempts);
         questionLabel.setText(ques.get(randomNum));
         pointLabel.setText("0");
-
-    }    
+    }
 
     @FXML
-    private void answerButtonAction(ActionEvent event) {
+    private void answerButtonAction(ActionEvent event) throws InterruptedException {
+        int randomNum = random_generator();
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
-        String str = answerTextField.getText().toString().toLowerCase().trim();
+        String str = answerTextField.getText().toLowerCase().trim();
         String correct = dict.get(questionLabel.getText());
         
         if(str.isEmpty()){
+            prevAnswerLabel.setVisible(false);
             toastMsg.setVisible(true);
           //  toast.makeText(stage, "Please enter your answer", 1500, 300, 300);
         }
+        else{
+            
+            if(str.equals(correct)){
+                points ++;
+                String pts = String.valueOf(points);
+                pointLabel.setText(pts);
+            }else {
+                cnt-=2;
+                prevAnswerLabel.setVisible(true);
+                correctAnswerLabel.setVisible(true);
+                correctAnswerLabel.setText(correct);
+                attemptsLabel.setText(attempts.substring(0, cnt));
+            }
         
-        if(str.equals(correct)){
-            points ++;
-            String pts = String.valueOf(points);
-            pointLabel.setText(pts);
-        }else {
-            correctAnswerLabel.setVisible(true);
-            correctAnswerLabel.setText(correct);
-        }        
+            questionLabel.setText(ques.get(randomNum));
+            answerTextField.clear();
+        }
+        
     }
+    
+    
     public void question_genarator(){
         String ans;
         try{

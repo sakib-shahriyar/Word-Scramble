@@ -21,10 +21,9 @@ public class WordScramble extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
         Scene scene = new Scene(root);
         stage.setTitle("Word Scramble");
-        //stage.getIcons().add(new Image("file:potato.png"));
+        stage.getIcons().add(new Image("file:word_scramble.png"));
         stage.setScene(scene);
         stage.show();
     }
