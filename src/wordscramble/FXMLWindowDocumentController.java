@@ -17,14 +17,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 /**
  * FXML Controller class
  *
  * @author intern
  */
 
-public class FXMLWindowDocumentController implements Initializable{
+public class FXMLWindowDocumentController extends FXMLDocumentController implements Initializable{
 
     @FXML
     private Label finalResult;
@@ -40,16 +39,16 @@ public class FXMLWindowDocumentController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         finalResult.setText(pts);
         System.out.println(pts);
     }    
     
     @FXML
     private void retryButtonHandler(ActionEvent event) {
-        
         Stage stage = (Stage) retryButton.getScene().getWindow();
         stage.close();
-        
+        //docController.init();
     }
     
  

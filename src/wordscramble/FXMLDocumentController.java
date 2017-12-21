@@ -69,8 +69,9 @@ public class FXMLDocumentController implements Initializable{
     HashMap<String, String> dict = new HashMap<>();
     private String line;
     private int cnt;
-    int points;
+    int points = 1;
     String attempts = " | | | | | | | | | | ";
+    
     @FXML
     private Label prevAnswerLabel;
     
@@ -80,7 +81,7 @@ public class FXMLDocumentController implements Initializable{
     }    
     
     public void init(){
-        points = 0;
+        //points = 0;
         cnt = 20;
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
@@ -90,7 +91,7 @@ public class FXMLDocumentController implements Initializable{
         dict_generator(ques, correctAns);
         int randomNum = random_generator();
         attemptsLabel.setText(attempts);
-        questionLabel.setText(ques.get(randomNum));
+        questionLabel.setText(ques.get(randomNum).toUpperCase());
         pointLabel.setText("0");
     }
 
@@ -105,7 +106,7 @@ public class FXMLDocumentController implements Initializable{
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
         String str = answerTextField.getText().toLowerCase().trim();
-        String correct = dict.get(questionLabel.getText());
+        String correct = dict.get(questionLabel.getText().toLowerCase());
         
         if(str.isEmpty()){
             prevAnswerLabel.setVisible(false);
@@ -129,11 +130,12 @@ public class FXMLDocumentController implements Initializable{
                 
                 if (cnt == 0) {
                     retryStage();
+                    init();
                 }
                 
             }
         
-            questionLabel.setText(ques.get(randomNum));
+            questionLabel.setText(ques.get(randomNum).toUpperCase());
             answerTextField.clear();
         }
     }
