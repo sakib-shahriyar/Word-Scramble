@@ -32,16 +32,16 @@ public class FXMLWindowDocumentController extends FXMLDocumentController impleme
     
     FXMLDocumentController docController = new FXMLDocumentController();
     
-    String pts = String.valueOf(docController.points);
+    //String pts = String.valueOf();
+    String res = docController.result();
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-        finalResult.setText(pts);
-        System.out.println(pts);
+        finalResult.setText(res);
     }    
     
     @FXML

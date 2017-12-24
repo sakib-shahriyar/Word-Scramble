@@ -69,7 +69,7 @@ public class FXMLDocumentController implements Initializable{
     HashMap<String, String> dict = new HashMap<>();
     private String line;
     private int cnt;
-    int points = 1;
+    static int points;
     String attempts = " | | | | | | | | | | ";
     
     @FXML
@@ -81,14 +81,16 @@ public class FXMLDocumentController implements Initializable{
     }    
     
     public void init(){
-        //points = 0;
+        points = 0;
         cnt = 20;
         toastMsg.setVisible(false);
         correctAnswerLabel.setVisible(false);
         prevAnswerLabel.setVisible(false);
         answerTextField.clear();
         question_genarator();
+        answerButton.setDefaultButton(true);
         dict_generator(ques, correctAns);
+        result();
         int randomNum = random_generator();
         attemptsLabel.setText(attempts);
         questionLabel.setText(ques.get(randomNum).toUpperCase());
@@ -97,8 +99,8 @@ public class FXMLDocumentController implements Initializable{
 
     @FXML
     private void answerButtonAction(ActionEvent event) throws Exception {
-       
        check();
+      // result();
     }
     
     public void check() throws Exception{
@@ -120,13 +122,16 @@ public class FXMLDocumentController implements Initializable{
                 prevAnswerLabel.setVisible(false);
                 String pts = String.valueOf(points);
                 pointLabel.setText(pts);
-                final_points(points);
+                //int f_pts = final_points(points);
             }else {
-                cnt-=2;
+                cnt-=4;
                 prevAnswerLabel.setVisible(true);
                 correctAnswerLabel.setVisible(true);
                 correctAnswerLabel.setText(correct);
                 attemptsLabel.setText(attempts.substring(0, cnt));
+               // final_points(0);
+                
+//                System.out.println("exact value : "+getPoints());
                 
                 if (cnt == 0) {
                     retryStage();
@@ -176,13 +181,14 @@ public class FXMLDocumentController implements Initializable{
         }
     }
     
-    public void final_points(int points){
-        this.points = points;
-    }
-    
-    public int getPoints() {
-       return points;
-    }
+//    public void final_points(int points){
+//       this.points = points;
+//       // System.out.println("checking : " + this.points);
+//    }
+//    
+//    public int getPoints() {
+//       return points;
+//    }
     
     public void dict_generator(ArrayList<String> ques, ArrayList<String> correctAns){
         int quesSize = ques.size();
@@ -200,7 +206,7 @@ public class FXMLDocumentController implements Initializable{
     public int random_generator(){
         int min = 0;
         int max = ques.size();
-        int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(min, max);
         return randomNum;
     }
     
@@ -221,6 +227,25 @@ public class FXMLDocumentController implements Initializable{
     @FXML
     private void textEntered(KeyEvent event) {
         toastMsg.setVisible(false);
+    }
+    
+    public String result(){
+        //this.points = points;
+        String res = "Your point is : "+points+". \n";
+        int attempt_cnt = 10;
+        int avg = points/attempt_cnt;
+        
+        if(avg >= 10) res += "That's some shit right there, you should write your own dictionary";
+        
+        if (avg >= 6 && avg < 10) res += "Teach the developer some english, he's so bad";
+        
+        if (avg >= 3 && avg <6 ) res += "Welcome to school";
+        
+        if (avg > 0 && avg <3) res += "Nigga have you ever gone to school?";
+        
+        if (avg == 0) res += "Damn, you're so bad, cow!!!!!";
+
+        return res;
     }
 
 }
